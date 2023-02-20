@@ -3,6 +3,7 @@ package flight.reservation;
 import flight.reservation.flight.ScheduledFlight;
 import flight.reservation.order.FlightOrder;
 import flight.reservation.order.Order;
+import flight.reservation.order.CustomerObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class Customer {
         order.setPassengers(passengers);
         order.getScheduledFlights().forEach(scheduledFlight -> scheduledFlight.addPassengers(passengers));
         orders.add(order);
+        order.addObserver(new CustomerObserver());
         return order;
     }
 

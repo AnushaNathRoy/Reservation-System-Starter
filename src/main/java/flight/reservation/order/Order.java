@@ -3,6 +3,7 @@ package flight.reservation.order;
 import flight.reservation.Customer;
 import flight.reservation.Passenger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ public class Order {
     private boolean isClosed = false;
     private Customer customer;
     private List<Passenger> passengers;
+    private List<OrderObserver> observers = new ArrayList<>();
 
     public Order() {
         this.id = UUID.randomUUID();
@@ -28,6 +30,7 @@ public class Order {
 
     public void setPrice(double price) {
         this.price = price;
+        notifyObservers();
     }
 
     public Customer getCustomer() {
@@ -52,6 +55,20 @@ public class Order {
 
     public void setClosed() {
         isClosed = true;
+        notifyObservers();
     }
 
+    public void addObserver(OrderObserver observer) {
+        observers.add(observer);
+    }
+
+    public void notifyObservers() {
+        for (OrderObserver observer : observers) {
+            observer.update(this);
+        }
+    }
+
+    public void removeObserver(OrderObserver observer) {
+        observers.remove(observer);
+    }
 }
