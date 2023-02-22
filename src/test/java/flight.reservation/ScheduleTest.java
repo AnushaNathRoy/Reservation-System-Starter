@@ -59,7 +59,7 @@ public class ScheduleTest {
         @Test
         @DisplayName("then removing a flight should still yield an empty list")
         void thenScheduleShouldYieldEmpty() {
-            schedule.removeFlight(new Flight(1, new Airport("a", "a", "a"), new Airport("b", "b", "b"), new PassengerPlane("A380")));
+            schedule.removeFlight(new Flight(1, new Airport("a", "a", "a"), new Airport("b", "b", "b"), new PassengerPlane.Builder("A380").build()));
             assertEquals(0, schedule.getScheduledFlights().size());
         }
 
@@ -75,7 +75,7 @@ public class ScheduleTest {
                 Airport startAirport = new Airport("Berlin Airport", "BER", "Berlin, Berlin");
                 Airport destAirport = new Airport("Frankfurt Airport", "FRA", "Frankfurt, Hesse");
 
-                PassengerPlane aircraft = new PassengerPlane("A380");
+                PassengerPlane aircraft = new PassengerPlane.Builder("A380").build();
                 flight = new Flight(1, startAirport, destAirport, aircraft);
                 departure = TestUtil.addDays(Date.from(Instant.now()), 3);
                 schedule.scheduleFlight(flight, departure);
@@ -127,10 +127,10 @@ public class ScheduleTest {
         );
 
         List<Flight> flights = Arrays.asList(
-                new Flight(1, airports.get(0), airports.get(1), new PassengerPlane("A350")),
-                new Flight(2, airports.get(1), airports.get(2), new PassengerPlane("A380")),
-                new Flight(3, airports.get(2), airports.get(4), new PassengerPlane("Embraer 190")),
-                new Flight(4, airports.get(3), airports.get(2), new PassengerPlane("Antonov AN2")),
+                new Flight(1, airports.get(0), airports.get(1), new PassengerPlane.Builder("A350").build()),
+                new Flight(2, airports.get(1), airports.get(2), new PassengerPlane.Builder("A380").build()),
+                new Flight(3, airports.get(2), airports.get(4), new PassengerPlane.Builder("Embraer 190").build()),
+                new Flight(4, airports.get(3), airports.get(2), new PassengerPlane.Builder("Antonov AN2").build()),
                 new Flight(5, airports.get(4), airports.get(2), new Helicopter("H1")),
                 new Flight(6, airports.get(5), airports.get(7), new PassengerDrone("HypaHype"))
         );
