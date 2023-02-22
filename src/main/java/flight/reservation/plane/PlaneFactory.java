@@ -4,13 +4,13 @@ public class PlaneFactory implements PlaneFactoryInterface{
     public Plane createPlane(String model) {
         switch (model) {
             case "A380":
-                return new PassengerPlane(model);
+                return new PassengerPlane.Builder(model).build();
             case "A350":
-                return new PassengerPlane(model);
+                return new PassengerPlane.Builder(model).build();
             case "Embraer 190":
-                return new PassengerPlane(model);
+                return new PassengerPlane.Builder(model).build();
             case "Antonov AN2":
-                return new PassengerPlane(model);
+                return new PassengerPlane.Builder(model).build();
             case "H1":
                 return new Helicopter(model);
             case "H2":
