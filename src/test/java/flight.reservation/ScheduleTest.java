@@ -10,6 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import flight.reservation.payment.CreditCardStrategy;
+import flight.reservation.payment.PaypalStrategy;
+import flight.reservation.payment.CreditCard;
+import flight.reservation.payment.Paypal;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

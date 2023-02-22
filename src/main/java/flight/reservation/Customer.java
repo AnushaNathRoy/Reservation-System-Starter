@@ -3,8 +3,15 @@ package flight.reservation;
 import flight.reservation.flight.ScheduledFlight;
 import flight.reservation.order.FlightOrder;
 import flight.reservation.order.Order;
+import flight.reservation.payment.PaymentStrategy;
+import flight.reservation.payment.CreditCardStrategy;
+import flight.reservation.payment.PaypalStrategy;
+import flight.reservation.payment.CreditCard;
+import flight.reservation.payment.Paypal;
+
 import flight.reservation.order.CustomerObserver;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,6 +21,7 @@ public class Customer {
     private String email;
     private String name;
     private List<Order> orders;
+    private PaymentStrategy paymentStrategy;
 
     public Customer(String name, String email) {
         this.name = name;
@@ -21,13 +29,19 @@ public class Customer {
         this.orders = new ArrayList<>();
     }
 
+    public void setPaymentStrategy(PaymentStrategy paymentStrategy) {
+        this.paymentStrategy = paymentStrategy;
+    }
+
     public FlightOrder createOrder(List<String> passengerNames, List<ScheduledFlight> flights, double price) {
         if (!isOrderValid(passengerNames, flights)) {
             throw new IllegalStateException("Order is not valid");
         }
+        // PaymentStrategy paymentStrategy = new CreditCardStrategy(new CreditCard("1234", new Date(), "123"));
         FlightOrder order = new FlightOrder(flights);
         order.setCustomer(this);
         order.setPrice(price);
+        order.setPaymentStrategy(paymentStrategy);
         List<Passenger> passengers = passengerNames
                 .stream()
                 .map(Passenger::new)
