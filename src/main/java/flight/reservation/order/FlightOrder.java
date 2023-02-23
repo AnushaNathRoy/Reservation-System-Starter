@@ -29,32 +29,21 @@ public class FlightOrder extends Order {
         this.paymentStrategy = paymentStrategy;
     }
 
-
-    private boolean isOrderValid(Customer customer, List<String> passengerNames, List<ScheduledFlight> flights) {
-        boolean valid = true;
-        valid = valid && !noFlyList.contains(customer.getName());
-        valid = valid && passengerNames.stream().noneMatch(passenger -> noFlyList.contains(passenger));
-        valid = valid && flights.stream().allMatch(scheduledFlight -> {
-            try {
-                return scheduledFlight.getAvailableCapacity() >= passengerNames.size();
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-                return false;
-            }
-        });
-        return valid;
+    public PaymentStrategy getPaymentStrategy() {
+        return paymentStrategy;
     }
 
-    public boolean processOrder() throws IllegalStateException {
-        if (paymentStrategy == null) {
-            throw new IllegalStateException("Payment strategy is not set");
-        }
-        
-        if(paymentStrategy.pay(this.getPrice())) {
-           setClosed();
-           return true;
-        } 
+    
+    public boolean process() {
+        OrderHandler orderHandler = new OrderValidationHandler();
+        OrderHandler paymentHandler = new PaymentHandler();
+        OrderHandler orderFulfillmentHandler = new OrderCompletionHandler();
 
-        return false;
+        orderHandler.setNextHandler(paymentHandler);
+        paymentHandler.setNextHandler(orderFulfillmentHandler);
+
+        return orderHandler.processOrder(this);
     }
+
+
 }

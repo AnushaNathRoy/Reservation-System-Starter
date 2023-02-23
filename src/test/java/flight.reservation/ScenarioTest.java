@@ -128,9 +128,9 @@ public class ScenarioTest {
                     assertFalse(order.isClosed());
                     assertEquals(order, customer.getOrders().get(0));
 
-                    // boolean isProcessed = order.processOrderWithPayPal(customer.getEmail(), "amanda1985");
+                    // boolean isProcessed = order.processWithPayPal(customer.getEmail(), "amanda1985");
                     order.setPaymentStrategy(new PaypalStrategy("amanda@ya.com", "amanda1985"));
-                    boolean isProcessed = order.processOrder();
+                    boolean isProcessed = order.process();
                     assertTrue(isProcessed);
                     assertTrue(order.isClosed());
                 }
@@ -174,7 +174,7 @@ public class ScenarioTest {
                 assertThrows(IllegalStateException.class, () -> 
                 {
                     order.setPaymentStrategy(new CreditCardStrategy(creditCard));
-                    order.processOrder();
+                    order.process();
                     
                 });
                 assertFalse(order.isClosed());
@@ -198,7 +198,7 @@ public class ScenarioTest {
                 assertThrows(IllegalStateException.class, () -> 
                 {
                     order.setPaymentStrategy(new CreditCardStrategy(creditCard));
-                    order.processOrder();
+                    order.process();
                     
                 });
                 assertFalse(order.isClosed());
@@ -220,9 +220,9 @@ public class ScenarioTest {
             void thenTheBookingShouldSucceed() throws NoSuchFieldException {
                 ScheduledFlight scheduledFlight = schedule.searchScheduledFlight(flight.getNumber());
                 FlightOrder order = customer.createOrder(Arrays.asList("Max"), Arrays.asList(scheduledFlight), 100);
-                // boolean processed = order.processOrderWithCreditCard(creditCard);
+                // boolean processed = order.processWithCreditCard(creditCard);
                 order.setPaymentStrategy(new CreditCardStrategy(creditCard));
-                boolean processed = order.processOrder();
+                boolean processed = order.process();
                 assertTrue(processed);
                 assertTrue(order.isClosed());
                 assertEquals(order, customer.getOrders().get(0));
