@@ -69,3 +69,7 @@ You can run the tests to see if the application can be executed and still behave
 In the command line, run the following:
 
 ``./mvnw clean install``
+
+## Submission:
+
+Documentation: https://www.notion.so/Assignment-2-ICA4-Reservation-System-93eabc49cbc04462b474d5bcfe3b5f1b#8750f367006040288a9a48afeca59fdf
